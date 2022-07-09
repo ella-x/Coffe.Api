@@ -9,7 +9,7 @@ namespace Coffe.Api.Controllers
     public class CoffeeController : ControllerBase
     {
         private readonly ICoffeeRepository _coffeeRepository;
-        public CoffeeController(CofeeRepository coffeeRepository)
+        public CoffeeController(ICoffeeRepository coffeeRepository)
         {
             _coffeeRepository = coffeeRepository;
         }
@@ -26,13 +26,32 @@ namespace Coffe.Api.Controllers
             var record = _coffeeRepository.GetById(id);
             return record;
         }
-        
-         private readonly ILogger<CoffeeController> _logger;
-
-         public CoffeeController(ILogger<CoffeeController> logger)
-         {
-             _logger = logger;
-         }
+        [HttpPost]
+        public IActionResult InsertCategory(CoffeeRecord record)
+        {
+            try
+            {
+                _coffeeRepository.Add(record);
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+            return Ok(new { Success = true });
+        }
+        [HttpDelete]
+        public IActionResult DeleteRecord(int id)
+        {
+            try
+            {
+                _coffeeRepository.Delete(id);
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+            return Ok(new { Success = true });
+        }
 
     }
 }

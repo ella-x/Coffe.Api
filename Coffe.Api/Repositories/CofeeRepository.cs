@@ -10,6 +10,8 @@ namespace Coffe.Api.Repositories
     {
         List<CoffeeRecord> Get();
         CoffeeRecord GetById(int id);
+        void Add(CoffeeRecord record);
+        void Delete(int id);
     }
 
     public class CofeeRepository : ICoffeeRepository
@@ -37,12 +39,29 @@ namespace Coffe.Api.Repositories
             {
                 var query = @"SELECT * FROM Records Where id = @id";
 
-                var record = connection.QuerySingle<CoffeeRecord>(query,new { id = id });
+                var record = connection.QuerySingle<CoffeeRecord>(query, new { id = id });
                 return record;
             }
 
         }
+        public void Add(CoffeeRecord record)
+        {
+            using (IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConnectionString")))
+            {
+                var sql = "INSERT INTO Records (Type, Bean, Location, DateCreated, Score, NoOfShots, Price) Values(@Type, @Bean, @Location, @DateCreated, @Score, @NoOfShots, @Price)";
+                connection.Execute(sql, record);
+            }
 
+        }
+
+        public void Delete(int id)
+        {
+            using (IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConnectionString")))
+            {
+                var sql = "DELETE FROM Records WHERE Id = @id";
+                connection.Execute(sql, new { id });
+            }
+        }
     }
 }
 
