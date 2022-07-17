@@ -12,6 +12,7 @@ namespace Coffe.Api.Repositories
         CoffeeRecord GetById(int id);
         void Add(CoffeeRecord record);
         void Delete(int id);
+        void Update(CoffeeRecord record);
     }
 
     public class CofeeRepository : ICoffeeRepository
@@ -60,6 +61,15 @@ namespace Coffe.Api.Repositories
             {
                 var sql = "DELETE FROM Records WHERE Id = @id";
                 connection.Execute(sql, new { id });
+            }
+        }
+
+        public void Update(CoffeeRecord record)
+        {
+            using (IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("ConnectionString")))
+            {
+                var sql = "UPDATE Records SET Type = @Type, Bean = @Bean, Location =  @Location, DateCreated = @DateCreated, Score = @Score, NoOfShots = @NoOfShots, Price = @Price WHERE Id = @id";
+                connection.Execute(sql, record);
             }
         }
     }

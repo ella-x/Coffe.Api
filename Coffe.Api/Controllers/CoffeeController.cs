@@ -39,12 +39,26 @@ namespace Coffe.Api.Controllers
             }
             return Ok(new { Success = true });
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteRecord(int id)
         {
             try
             {
                 _coffeeRepository.Delete(id);
+            }
+            catch
+            {
+                return Ok(new { Success = false });
+            }
+            return Ok(new { Success = true });
+        }
+
+        [HttpPut]
+        public IActionResult UpdateRecord(CoffeeRecord record)
+        {
+            try
+            {
+                _coffeeRepository.Update(record);
             }
             catch
             {
