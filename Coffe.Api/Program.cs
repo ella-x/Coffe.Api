@@ -10,7 +10,7 @@ builder.Services.AddScoped<ICoffeeRepository, CofeeRepository>();
 builder.Services.AddCors(opt => opt.AddPolicy("CorsPolicy",
   policy =>
  {
-      policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:7680"); // allowing any header to be sent
+      policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"); // allowing any header to be sent
   }));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
